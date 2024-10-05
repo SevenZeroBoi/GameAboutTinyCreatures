@@ -68,6 +68,7 @@ public class GameStates : MonoBehaviour
         anim.SetTrigger("happy");
         followersStorage.Add(newFollower);
     }
+
     public void FollowersGotCut(GameObject nearest)
     {
         int nearestIndex = followersStorage.IndexOf(nearest);
@@ -90,4 +91,28 @@ public class GameStates : MonoBehaviour
     //Game Event list - Spawn Creatures / Cat / Bird / Ant / Bird / Frog / Item Box with Creature
     //Placeable Item - House / Flower / Trap
 
+
+    [Header("Little Cretures Spawner")]
+    public GameObject[] spawners;
+    public GameObject[] creatures;
+
+    void SpawningCreatures()
+    {
+        Instantiate(creatures[0], spawners[0].transform.position, Quaternion.identity);
+    }
+
+    float numtest = 0;
+    private void Update()
+    {
+        
+        if (numtest < 3)
+        {
+            numtest += Time.deltaTime;
+        }
+        else
+        {
+            SpawningCreatures();
+            numtest = 0;
+        }
+    }
 }

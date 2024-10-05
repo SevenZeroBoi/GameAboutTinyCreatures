@@ -19,7 +19,9 @@ public class WalkingScript : MonoBehaviour
 
     private void Start()
     {
-        direction = "START";
+        direction = "TURNDOWN";
+        vectorcheck = Vector2.down;
+        SpawnNextSpawnPoint();
     }
 
     private void Update()
@@ -31,11 +33,6 @@ public class WalkingScript : MonoBehaviour
     public GameObject nextSpawnPoint;
     void Movements()
     {
-        if (direction == "START")
-        {
-            Instantiate(nextSpawnPoint, rangeBetweenCreature * Vector2.up, Quaternion.identity);
-            vectorcheck = Vector2.down;
-        }
         if (direction == "TURNUP")
         {
             vectorcheck = Vector2.up;
@@ -58,7 +55,7 @@ public class WalkingScript : MonoBehaviour
 
     public void SpawnNextSpawnPoint()
     {
-        Instantiate(nextSpawnPoint, rangeBetweenCreature * vectorcheck*-1, Quaternion.identity);
+        Instantiate(nextSpawnPoint, transform.position + (rangeBetweenCreature * vectorcheck*-1), Quaternion.identity).tag = direction;
     }
     void ChangePosition()
     {

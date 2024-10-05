@@ -15,11 +15,11 @@ public class FollowersScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        MovementWhenSpawn();
     }
     void MovementWhenSpawn()
     {
-        transform.position = transform.position;
+        transform.position += Vector3.left * 5 * Time.deltaTime;
     }
 
     void WhenGotPickUp()
@@ -37,7 +37,7 @@ public class FollowersScript : MonoBehaviour
         if (collision.gameObject.tag == "SETNEWONE" && !GameStates.instance.followersStorage.Contains(gameObject)) // gameObject != GameStates.instance.followersStorage[GameStates.instance.followersStorage.Count-1]
         {
             WalkingScript.instance.SpawnNextSpawnPoint();
-            GameStates.instance.NewFollowers(gameObject);
+            GameStates.instance.NewFollowers(collision.gameObject);
         }
         if (collision.gameObject.tag == "ATTACKING")
         {

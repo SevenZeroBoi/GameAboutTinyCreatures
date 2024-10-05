@@ -9,6 +9,7 @@ TagManager:
   - TURNUP
   - TURNDOWN
   - CREATURES
+  - SETNEWONE
   layers:
   - Default
   - TransparentFX
