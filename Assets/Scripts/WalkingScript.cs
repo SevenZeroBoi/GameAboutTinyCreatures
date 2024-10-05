@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class WalkingScript : MonoBehaviour
 {
@@ -12,8 +13,9 @@ public class WalkingScript : MonoBehaviour
     }
 
     string direction = "";
-    Vector3 vectorcheck;
+    public Vector3 vectorcheck;
     public int moveSpeed;
+    public float rangeBetweenCreature;
 
     private void Start()
     {
@@ -26,10 +28,12 @@ public class WalkingScript : MonoBehaviour
         ChangePosition();
     }
 
+    public GameObject nextSpawnPoint;
     void Movements()
     {
         if (direction == "START")
         {
+            Instantiate(nextSpawnPoint, rangeBetweenCreature * Vector2.up, Quaternion.identity);
             vectorcheck = Vector2.down;
         }
         if (direction == "TURNUP")
@@ -50,6 +54,11 @@ public class WalkingScript : MonoBehaviour
         }
 
         transform.position += vectorcheck*moveSpeed*Time.deltaTime;
+    }
+
+    public void SpawnNextSpawnPoint()
+    {
+        Instantiate(nextSpawnPoint, rangeBetweenCreature * vectorcheck*-1, Quaternion.identity);
     }
     void ChangePosition()
     {

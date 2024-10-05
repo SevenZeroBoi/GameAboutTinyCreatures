@@ -15,11 +15,34 @@ public class FollowersScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+    void MovementWhenSpawn()
+    {
+        transform.position = transform.position;
+    }
+
+    void WhenGotPickUp()
+    {
+
+    }
+
+    void MovementFollowing()
+    {
         transform.position += subvectorcheck * WalkingScript.instance.moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "SETNEWONE" && !GameStates.instance.followersStorage.Contains(gameObject)) // gameObject != GameStates.instance.followersStorage[GameStates.instance.followersStorage.Count-1]
+        {
+            WalkingScript.instance.SpawnNextSpawnPoint();
+            GameStates.instance.NewFollowers(gameObject);
+        }
+        if (collision.gameObject.tag == "ATTACKING")
+        {
+            GameStates.instance.FollowersGotCut(gameObject);
+        }
         if (collision != null)
         {
             Debug.Log("hitcheck");
