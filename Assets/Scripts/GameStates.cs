@@ -6,113 +6,37 @@ using UnityEngine;
 public class GameStates : MonoBehaviour
 {
     public static GameStates instance;
+
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+        instance = this;
     }
 
-    #region Scoring System
-    public float GameScore = 0;
-    public float ScoreMultiplier = 1;
-    void AddingTimeScore()
-    {
-        GameScore += Time.deltaTime* ScoreMultiplier;
-    }
-
-    void AddingScore(float score)
-    {
-        GameScore += score * ScoreMultiplier;
-    }
-
-
-    int countofBadCreature = 0;
-    void ScoreMultiplyDebuff()
-    {
-        ScoreMultiplier/=countofBadCreature;
-    }
-
-    void ChangeScoreMultiplier(string addorminus,float number)
-    {
-        if (addorminus == "ADD")
-        {
-            ScoreMultiplier += number;
-        }
-        else if (addorminus == "MINUS")
-        {
-             ScoreMultiplier -= number;
-        }
-    }
-
-    void GetHit()
-    {
-        GameScore -= 5000;
-    }
-
-    void PhaseChange()
-    {
-
-    }
-    #endregion
-
-
-    #region Follower Controlling
-    [Header("Follower Controlling")]
-    public List<GameObject> followersStorage = new List<GameObject>();
-    Animator anim;
-    public void NewFollowers(GameObject newFollower)
-    {
-        anim = newFollower.GetComponent<Animator>();
-        anim.SetTrigger("happy");
-        followersStorage.Add(newFollower);
-    }
-
-    public void FollowersGotCut(GameObject nearest)
-    {
-        int nearestIndex = followersStorage.IndexOf(nearest);
-        if (nearestIndex != -1)
-        {
-            followersStorage.RemoveRange(nearestIndex, followersStorage.Count - nearestIndex);
-        }
-        for (int i = nearestIndex; i < followersStorage.Count; i++)
-        {
-            anim = followersStorage[nearestIndex].GetComponent<Animator>();
-            anim.SetTrigger("death");
-        }
-    }
-
-    #endregion
-
-    public static GameObject[] placeableObject; //house,flower,trap
-
-
-    //Game Event list - Spawn Creatures / Cat / Bird / Ant / Bird / Frog / Item Box with Creature
-    //Placeable Item - House / Flower / Trap
-
-
-    [Header("Little Cretures Spawner")]
-    public GameObject[] spawners;
-    public GameObject[] creatures;
-
-    void SpawningCreatures()
-    {
-        Instantiate(creatures[0], spawners[0].transform.position, Quaternion.identity);
-    }
-
-    float numtest = 0;
     private void Update()
     {
-        
-        if (numtest < 3)
+        RotationPointChecking();
+    }
+
+    [Header("Creatures Storage")]
+    public List<GameObject> creatureStorage = new List<GameObject>();
+
+    [Header("RotationStorage")]
+    public Dictionary<Vector3, Vector2> rotationPoint = new Dictionary<Vector3, Vector2>();
+
+    void RotationPointChecking()
+    {
+        foreach (GameObject creature in creatureStorage)
         {
-            numtest += Time.deltaTime;
-        }
-        else
-        {
-            SpawningCreatures();
-            numtest = 0;
+            var movingCreature = creature.GetComponent<MovingCreatures>();
+            foreach (var pos in rotationPoint)
+            {
+                if (Vector3.Distance(creature.transform.position, pos.Key) <= 0.1f)
+                {
+                    movingCreature.rotation = pos.Value;
+                    movingCreature.transform.position = creature.transform.position;
+                    break;
+                }
+            }
         }
     }
 }
