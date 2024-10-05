@@ -14,29 +14,14 @@ public class GameStates : MonoBehaviour
 
     private void Update()
     {
-        RotationPointChecking();
     }
 
     [Header("Creatures Storage")]
     public List<GameObject> creatureStorage = new List<GameObject>();
 
     [Header("RotationStorage")]
-    public Dictionary<Vector3, Vector2> rotationPoint = new Dictionary<Vector3, Vector2>();
-
-    void RotationPointChecking()
-    {
-        foreach (GameObject creature in creatureStorage)
-        {
-            var movingCreature = creature.GetComponent<MovingCreatures>();
-            foreach (var pos in rotationPoint)
-            {
-                if (Vector3.Distance(creature.transform.position, pos.Key) <= 0.1f)
-                {
-                    movingCreature.rotation = pos.Value;
-                    movingCreature.transform.position = creature.transform.position;
-                    break;
-                }
-            }
-        }
-    }
+    public Dictionary<GameObject, int> rotationObjectStorage = new Dictionary<GameObject, int>();
+    public GameObject objectToRotate;
+    
+    
 }

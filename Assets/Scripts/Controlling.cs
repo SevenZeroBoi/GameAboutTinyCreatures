@@ -13,19 +13,19 @@ public class Controlling : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
-            GameStates.instance.rotationPoint[transform.position] = Vector2.right;
+            Instantiate(GameStates.instance.objectToRotate,transform.position,Quaternion.identity).tag = "TURNRIGHT";
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            GameStates.instance.rotationPoint[transform.position] = Vector2.left;
+            Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity).tag = "TURNLEFT";
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            GameStates.instance.rotationPoint[transform.position] = Vector2.down;
+            Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity).tag = "TURNDOWN";
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
-            GameStates.instance.rotationPoint[transform.position] = Vector2.up;
+            Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity).tag = "TURNUP";
         }
     }
 }
