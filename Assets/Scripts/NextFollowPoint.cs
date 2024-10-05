@@ -9,22 +9,7 @@ public class NextFollowPoint : MonoBehaviour
     Vector3 movingPos;
     private void Awake()
     {
-        if (gameObject.tag == "TURNUP")
-        {
-            movingPos = Vector2.up;
-        }
-        if (gameObject.tag == "TURNDOWN")
-        {
-            movingPos = Vector2.down;
-        }
-        if (gameObject.tag == "TURNRIGHT")
-        {
-            movingPos = Vector2.right;
-        }
-        if (gameObject.tag == "TURNLEFT")
-        {
-            movingPos = Vector2.left;
-        }
+        movingPos = Vector3.down;
     }
 
     private void Start()
@@ -32,6 +17,7 @@ public class NextFollowPoint : MonoBehaviour
         gameObject.tag = "SETNEWONE";
     }
 
+    
     private void Update()
     {
         transform.position += (movingPos * WalkingScript.instance.moveSpeed * Time.deltaTime);
