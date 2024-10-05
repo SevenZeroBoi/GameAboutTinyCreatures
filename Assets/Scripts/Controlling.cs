@@ -1,31 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Controlling : MonoBehaviour
 {
     private void Update()
     {
-        Rotation();
+        RotationCooldown();
     }
 
+    float cooldownrotate = 0;
+    void RotationCooldown()
+    {
+        cooldownrotate += Time.deltaTime;
+        if (cooldownrotate > 0.4)
+        {
+            Rotation();
+        }
+    }
     void Rotation()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && MovingCreatures.instance.rotation != Vector3.right)
         {
-            Instantiate(GameStates.instance.objectToRotate,transform.position,Quaternion.identity).tag = "TURNRIGHT";
+            GameObject newobj = (Instantiate(GameStates.instance.objectToRotate,transform.position,Quaternion.identity));
+            newobj.tag = "TURNRIGHT";
+            GameStates.instance.rotationObjectStorage.Add(newobj, GameStates.instance.creatureStorage.Count);
+            cooldownrotate = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A) && MovingCreatures.instance.rotation != Vector3.left)
         {
-            Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity).tag = "TURNLEFT";
+            GameObject newobj = (Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity));
+            newobj.tag = "TURNLEFT";
+            GameStates.instance.rotationObjectStorage.Add(newobj, GameStates.instance.creatureStorage.Count);
+            cooldownrotate = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) && MovingCreatures.instance.rotation != Vector3.down)
         {
-            Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity).tag = "TURNDOWN";
+            GameObject newobj = (Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity));
+            newobj.tag = "TURNDOWN";
+            GameStates.instance.rotationObjectStorage.Add(newobj, GameStates.instance.creatureStorage.Count);
+            cooldownrotate = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.W) && MovingCreatures.instance.rotation != Vector3.up)
         {
-            Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity).tag = "TURNUP";
+            GameObject newobj = (Instantiate(GameStates.instance.objectToRotate, transform.position, Quaternion.identity));
+            newobj.tag = "TURNUP";
+            GameStates.instance.rotationObjectStorage.Add(newobj, GameStates.instance.creatureStorage.Count);
+            cooldownrotate = 0;
         }
     }
 }
