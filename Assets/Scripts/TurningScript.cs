@@ -7,6 +7,17 @@ public class TurningScript : MonoBehaviour
 {
     int followerCounts = 0;
     int checkingCounts = 0;
+
+    private void Start()
+    {
+
+    }
+
+    private void Update()
+    {
+        
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "CREATURES")

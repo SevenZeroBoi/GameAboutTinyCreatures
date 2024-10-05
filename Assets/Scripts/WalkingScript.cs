@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class WalkingScript : MonoBehaviour
 {
+    public static WalkingScript instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     string direction = "";
     Vector3 vectorcheck;
-    public int moveSpeed = 1;
+    public int moveSpeed;
 
     private void Start()
     {
