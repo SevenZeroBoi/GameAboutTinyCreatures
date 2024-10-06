@@ -9,6 +9,8 @@ public class MainCharacter : MonoBehaviour
     public static MainCharacter instance;
 
     public float movementSpeed;
+    [HideInInspector] public Vector3 rotationPos = Vector3.zero;
+
 
     private void Awake()
     {
@@ -21,8 +23,8 @@ public class MainCharacter : MonoBehaviour
             StartingGame();
         }
         Movement();
+        PositionToFollow();
     }
-    [HideInInspector] public Vector3 rotationPos = Vector3.zero;
     int lol = 0;
     void StartingGame()
     {
@@ -40,6 +42,7 @@ public class MainCharacter : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
             {
                 rotationPos = Vector3.right;
+                
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
@@ -59,9 +62,20 @@ public class MainCharacter : MonoBehaviour
         }
 
     }
+    public GameObject newfollowingPosition;
+    private void Start()
+    {
+        newfollowingPosition = Instantiate(GameStates.instance.followingPosition, transform.position + (Vector3.zero * GameStates.instance.rangeBetweenFollowers), Quaternion.identity);
+    }
+    void PositionToFollow()
+    {
+        newfollowingPosition.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * rotationPos);
+    }
+
     void UsingItem()
     {
         
     }
+
 
 }

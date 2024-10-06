@@ -8,6 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class FollowerScript : MonoBehaviour
 {
+    /*
     public List<Vector3> wayPointCheck;
     public GameObject mainWayPointTarget;
     private void Start()
@@ -46,6 +47,65 @@ public class FollowerScript : MonoBehaviour
             {
                 wayPointCheck.RemoveAt(0);
             }
+        }
+    }*/
+
+    public GameObject mainMovingTarget = null;
+
+    GameObject newfollowingPosition;
+    private void Start()
+    {
+        newfollowingPosition = Instantiate(GameStates.instance.followingPosition,transform.position+(angle* GameStates.instance.rangeBetweenFollowers),Quaternion.identity);
+    }
+    public Vector3 angle = Vector3.right;
+    void PositionToFollow()
+    {
+        newfollowingPosition.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * angle);
+        if (transform.position.x == mainMovingTarget.transform.position.x)
+        {
+            if (transform.position.y > mainMovingTarget.transform.position.y)
+            {
+                angle = Vector3.up;
+            }
+            else
+            {
+                angle = Vector3.down;
+            }
+        }
+        if (transform.position.y == mainMovingTarget.transform.position.y)
+        {
+            if (transform.position.x > mainMovingTarget.transform.position.x)
+            {
+                angle = Vector3.right;
+            }
+            else
+            {
+                angle = Vector3.left;
+            }
+        }
+    }
+
+    void Patroling()
+    {
+        
+    }
+    void LineWalking()
+    {
+        transform.position = Vector3.MoveTowards(transform.position,mainMovingTarget.transform.position, MainCharacter.instance.movementSpeed*Time.deltaTime);
+    }
+
+
+    private void Update()
+    {
+        LineWalking();
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "FOLLOWING")
+        {
+            mainMovingTarget = collision.gameObject;
         }
     }
 }
