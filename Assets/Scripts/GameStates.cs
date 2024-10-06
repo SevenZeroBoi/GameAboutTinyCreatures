@@ -22,25 +22,43 @@ public class GameStates : MonoBehaviour
     public GameObject objectFollowerPrefab;
     public void AddEveryFollowerTarget(GameObject targetlocation) //set location to rotate for every obje
     {
-        foreach (GameObject follower in allFollowersStorage)
+        if (allFollowersStorage != null)
         {
-            follower.GetComponent<FollowerScript>().subTargetList.Add(targetlocation);
+            foreach (GameObject follower in allFollowersStorage)
+            {
+                follower.GetComponent<FollowerScript>().subTargetList.Add(targetlocation);
+            }
         }
     }
 
-    
+
     public void CreaturesDeath(GameObject start)
     {
-        for (int i = allFollowersStorage.IndexOf(start); i < allFollowersStorage.Count; i++)
-        {
-            Animator anim = start.GetComponent<Animator>();
-            anim.SetTrigger("Death");
-            Destroy(allFollowersStorage[i]);
-            Destroy(allFollowingDetection[i]);
-        }
-        allFollowingDetection[allFollowersStorage.IndexOf(start)].GetComponent<CircleCollider2D>().enabled = true;
-    }
+        int startIndex = allFollowersStorage.IndexOf(start);
 
+        if (startIndex >= 0)
+        {
+            for (int i = allFollowersStorage.Count - 1; i >= startIndex; i--)
+            {
+                Animator anim = allFollowersStorage[i].GetComponent<Animator>();
+                anim.SetTrigger("Death");
+
+                Destroy(allFollowersStorage[i]);
+                allFollowersStorage.RemoveAt(i);
+            }
+
+            for (int i = allFollowingDetection.Count - 1; i > startIndex; i--)
+            {
+                Destroy(allFollowingDetection[i]);
+                allFollowingDetection.RemoveAt(i);
+            }
+
+            if (startIndex < allFollowingDetection.Count)
+            {
+                allFollowingDetection[startIndex].GetComponent<CircleCollider2D>().enabled = true;
+            }
+        }
+    }
 
     [Header("Score System")]
     public int OverallScore = 0;

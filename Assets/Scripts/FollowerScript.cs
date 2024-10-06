@@ -76,12 +76,7 @@ public class FollowerScript : MonoBehaviour
 
         if (collision.gameObject.tag == "ATTACK")
         {
-            CreatureDeath();
+            GameStates.instance.CreaturesDeath(gameObject);
         }
-    }
-
-    void CreatureDeath()
-    {
-        
     }
 }

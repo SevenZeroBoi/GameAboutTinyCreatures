@@ -12,6 +12,7 @@ TagManager:
   - RIGHT
   - LEFT
   - CANFOLLOW
+  - ATTACK
   layers:
   - Default
   - TransparentFX
