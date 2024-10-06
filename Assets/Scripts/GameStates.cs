@@ -12,12 +12,17 @@ public class GameStates : MonoBehaviour
     {
         instance = this;
     }
+    private void Start()
+    {
+        movementSpeed = normalSpeed;
+    }
     [Header("Follower Storage")]
     public List<GameObject> allFollowersStorage;
     public List<GameObject> allFollowingDetection;
 
     [Header("Movements and range")]
-    public float movementSpeed;
+    public float normalSpeed;
+    [HideInInspector] public float movementSpeed;
     public float rangeBetweenFollowers;
     public GameObject objectFollowerPrefab;
     public void AddEveryFollowerTarget(GameObject targetlocation) //set location to rotate for every obje

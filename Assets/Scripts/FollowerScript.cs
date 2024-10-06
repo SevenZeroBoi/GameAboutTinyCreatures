@@ -34,11 +34,11 @@ public class FollowerScript : MonoBehaviour
         objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
         if (subTargetList.Count == 0)
         {
-            transform.position = Vector3.MoveTowards(transform.position, mainTarget.transform.position, GameStates.instance.movementSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, mainTarget.transform.position, (GameStates.instance.movementSpeed+ 0.1f) * Time.deltaTime);
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, subTargetList[0].transform.position, GameStates.instance.movementSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, subTargetList[0].transform.position, (GameStates.instance.movementSpeed+ 0.1f) * Time.deltaTime);
             if (transform.position == subTargetList[0].transform.position)
             {
                 if (subTargetList[0].tag == "RIGHT")
@@ -57,6 +57,7 @@ public class FollowerScript : MonoBehaviour
                 {
                     vectorcheck = Vector3.up;
                 }
+                subTargetList[0].GetComponent<RotateCheckDelete>().checkingcount--;
                 subTargetList.RemoveAt(0);
             }
         }
@@ -71,6 +72,7 @@ public class FollowerScript : MonoBehaviour
             objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
             GameStates.instance.allFollowingDetection.Add(objectFollower);
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
+            vectorcheck = MainCharacter.instance.rotationPos;
             canwalk = true;
         }
 

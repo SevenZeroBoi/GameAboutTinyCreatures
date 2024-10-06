@@ -7,8 +7,13 @@ using static UnityEditor.PlayerSettings;
 
 public class MainCharacter : MonoBehaviour
 {
-
+    public static MainCharacter instance;
     [HideInInspector] public GameObject objectFollower;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -53,6 +58,15 @@ public class MainCharacter : MonoBehaviour
                 rotationPos = Vector3.down;
                 CreateRotationPos(rotationPos);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            GameStates.instance.movementSpeed *= 1.5f;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            GameStates.instance.movementSpeed = GameStates.instance.normalSpeed;
         }
     }
 
