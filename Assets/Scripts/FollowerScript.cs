@@ -13,13 +13,12 @@ public class FollowerScript : MonoBehaviour
 
     }
 
-    public GameObject objectFollower;
+    [HideInInspector]  public GameObject objectFollower;
 
-    public List<GameObject> subTargetList;
-    public GameObject mainTarget;
+    [HideInInspector] public List<GameObject> subTargetList;
+    [HideInInspector] public GameObject mainTarget;
     private void Start()
     {
-        objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * Vector3.right);
     }
     private bool canwalk = false;
     private void Update()
@@ -69,7 +68,20 @@ public class FollowerScript : MonoBehaviour
             GameStates.instance.allFollowersStorage.Add(gameObject);
             mainTarget = collision.gameObject;
             collision.gameObject.GetComponent<CircleCollider2D>().enabled = false;
+            objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
+            GameStates.instance.allFollowingDetection.Add(objectFollower);
+            objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
             canwalk = true;
         }
+
+        if (collision.gameObject.tag == "ATTACK")
+        {
+            CreatureDeath();
+        }
+    }
+
+    void CreatureDeath()
+    {
+        
     }
 }

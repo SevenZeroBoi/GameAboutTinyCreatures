@@ -8,11 +8,13 @@ using static UnityEditor.PlayerSettings;
 public class MainCharacter : MonoBehaviour
 {
 
-    public GameObject objectFollower;
+    [HideInInspector] public GameObject objectFollower;
 
     private void Start()
     {
-        objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * Vector3.right);
+        objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
+        GameStates.instance.allFollowingDetection.Add(objectFollower);
+        objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * rotationPos);
     }
 
     private void Update()
