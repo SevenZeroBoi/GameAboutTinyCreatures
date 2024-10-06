@@ -1,52 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEditor.PlayerSettings;
 
 public class MainCharacter : MonoBehaviour
 {
-    
-    public static MainCharacter instance;
 
-    public float movementSpeed;
-    [HideInInspector] public Vector3 rotationPos = Vector3.zero;
+    public GameObject objectFollower;
 
-
-    private void Awake()
+    private void Start()
     {
-        instance = this;
+        objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * Vector3.right);
     }
+
     private void Update()
     {
-        if (lol == 0)
-        {
-            StartingGame();
-        }
         Movement();
-        PositionToFollow();
     }
-    int lol = 0;
-    void StartingGame()
+
+
+    public Vector3 rotationPos = Vector3.down;
+    void Movement() //main movement
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            rotationPos = Vector3.down;
-            lol = 1;
-        }
-    }
-    void Movement()
-    {
-        transform.position += Time.deltaTime*rotationPos*movementSpeed;
+        transform.position += rotationPos * GameStates.instance.movementSpeed * Time.deltaTime;
+        objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * rotationPos);
         if (rotationPos != Vector3.left && rotationPos != Vector3.right)
         {
             if (Input.GetKeyDown(KeyCode.D))
             {
                 rotationPos = Vector3.right;
-                
+                CreateRotationPos(rotationPos);
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
                 rotationPos = Vector3.left;
+                CreateRotationPos(rotationPos);
             }
         }
         if (rotationPos != Vector3.up && rotationPos != Vector3.down)
@@ -54,28 +44,39 @@ public class MainCharacter : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W))
             {
                 rotationPos = Vector3.up;
+                CreateRotationPos(rotationPos);
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 rotationPos = Vector3.down;
+                CreateRotationPos(rotationPos);
             }
         }
-
     }
-    public GameObject newfollowingPosition;
-    private void Start()
+
+    public GameObject emptyPos;
+    void CreateRotationPos(Vector3 pos) //send rotation pos when that location
     {
-        newfollowingPosition = Instantiate(GameStates.instance.followingPosition, transform.position + (Vector3.zero * GameStates.instance.rangeBetweenFollowers), Quaternion.identity);
+        if (GameStates.instance.allFollowersStorage.Count != 0)
+        {
+            GameObject newemptyPos = Instantiate(emptyPos, transform.position, Quaternion.identity);
+            if (pos == Vector3.right)
+            {
+                newemptyPos.tag = "RIGHT";
+            }
+            else if (pos == Vector3.left)
+            {
+                newemptyPos.tag = "LEFT";
+            }
+            else if (pos == Vector3.up)
+            {
+                newemptyPos.tag = "UP";
+            }
+            else if (pos == Vector3.down)
+            {
+                newemptyPos.tag = "DOWN";
+            }
+            GameStates.instance.AddEveryFollowerTarget(newemptyPos);
+        }
     }
-    void PositionToFollow()
-    {
-        newfollowingPosition.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * rotationPos);
-    }
-
-    void UsingItem()
-    {
-        
-    }
-
-
 }

@@ -8,104 +8,68 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class FollowerScript : MonoBehaviour
 {
-    /*
-    public List<Vector3> wayPointCheck;
-    public GameObject mainWayPointTarget;
+    void AfterSpawning()
+    {
+
+    }
+
+    public GameObject objectFollower;
+
+    public List<GameObject> subTargetList;
+    public GameObject mainTarget;
     private void Start()
     {
-        
+        objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * Vector3.right);
     }
+    private bool canwalk = false;
     private void Update()
     {
-        Lining();
-    }
-
-    void Spawning()
-    {
-    }
-
-    void Lining()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, GameStates.instance.followingPosition.transform.position, MainCharacter.instance.movementSpeed*Time.deltaTime);
-    }
-
-    void SetMainTarget()
-    {
-        GameStates.instance.followersStorage.Add(gameObject);
-        mainWayPointTarget = GameStates.instance.followersStorage[GameStates.instance.followersStorage.IndexOf(gameObject) - 1];
-    }
-    void Walking()
-    {
-        if (wayPointCheck.Count == 0)
+        if (canwalk)
         {
-            transform.position = Vector3.MoveTowards(transform.position, mainWayPointTarget.transform.position, GameStates.instance.rangeBetweenFollowers);
+            InlineMovement();
+        }
+    }
+    Vector3 vectorcheck = Vector3.down;
+    void InlineMovement() //movement when hit the target followeing
+    {
+        objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
+        if (subTargetList.Count == 0)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, mainTarget.transform.position, GameStates.instance.movementSpeed * Time.deltaTime);
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, wayPointCheck[0], GameStates.instance.rangeBetweenFollowers);
-            if (transform.position == wayPointCheck[0])
+            transform.position = Vector3.MoveTowards(transform.position, subTargetList[0].transform.position, GameStates.instance.movementSpeed * Time.deltaTime);
+            if (transform.position == subTargetList[0].transform.position)
             {
-                wayPointCheck.RemoveAt(0);
-            }
-        }
-    }*/
-
-    public GameObject mainMovingTarget = null;
-
-    GameObject newfollowingPosition;
-    private void Start()
-    {
-        newfollowingPosition = Instantiate(GameStates.instance.followingPosition,transform.position+(angle* GameStates.instance.rangeBetweenFollowers),Quaternion.identity);
-    }
-    public Vector3 angle = Vector3.right;
-    void PositionToFollow()
-    {
-        newfollowingPosition.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * angle);
-        if (transform.position.x == mainMovingTarget.transform.position.x)
-        {
-            if (transform.position.y > mainMovingTarget.transform.position.y)
-            {
-                angle = Vector3.up;
-            }
-            else
-            {
-                angle = Vector3.down;
-            }
-        }
-        if (transform.position.y == mainMovingTarget.transform.position.y)
-        {
-            if (transform.position.x > mainMovingTarget.transform.position.x)
-            {
-                angle = Vector3.right;
-            }
-            else
-            {
-                angle = Vector3.left;
+                if (subTargetList[0].tag == "RIGHT")
+                {
+                    vectorcheck = Vector3.right;
+                }
+                else if (subTargetList[0].tag == "LEFT")
+                {
+                    vectorcheck = Vector3.left;
+                }
+                else if (subTargetList[0].tag == "DOWN")
+                {
+                    vectorcheck = Vector3.down;
+                }
+                else if (subTargetList[0].tag == "UP")
+                {
+                    vectorcheck = Vector3.up;
+                }
+                subTargetList.RemoveAt(0);
             }
         }
     }
-
-    void Patroling()
-    {
-        
-    }
-    void LineWalking()
-    {
-        transform.position = Vector3.MoveTowards(transform.position,mainMovingTarget.transform.position, MainCharacter.instance.movementSpeed*Time.deltaTime);
-    }
-
-
-    private void Update()
-    {
-        LineWalking();
-    }
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "FOLLOWING")
+        if (collision.gameObject.tag == "CANFOLLOW" && !canwalk)
         {
-            mainMovingTarget = collision.gameObject;
+            GameStates.instance.allFollowersStorage.Add(gameObject);
+            mainTarget = collision.gameObject;
+            collision.gameObject.GetComponent<CircleCollider2D>().enabled = false;
+            canwalk = true;
         }
     }
 }

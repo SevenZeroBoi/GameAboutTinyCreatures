@@ -4,13 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - TURNRIGHT
-  - TURNLEFT
-  - TURNUP
-  - TURNDOWN
   - CREATURES
   - SETNEWONE
   - FOLLOWING
+  - UP
+  - DOWN
+  - RIGHT
+  - LEFT
+  - CANFOLLOW
   layers:
   - Default
   - TransparentFX

@@ -5,28 +5,27 @@ using UnityEngine;
 
 public class GameStates : MonoBehaviour
 {
-    
+
     public static GameStates instance;
-
-    public List<GameObject> followersStorage;
-
-    public List<GameObject> moveTowardsCheckStorage;
-    public float rangeBetweenFollowers;
-
-
     private void Awake()
     {
         instance = this;
     }
+    [Header("Follower Storage")]
+    public List<GameObject> allFollowersStorage;
 
-    public void Update()
+    [Header("Movements and range")]
+    public float movementSpeed;
+    public float rangeBetweenFollowers;
+    public void AddEveryFollowerTarget(GameObject targetlocation) //set location to rotate for every obje
     {
-        
+        foreach (GameObject follower in allFollowersStorage)
+        {
+            follower.GetComponent<FollowerScript>().subTargetList.Add(targetlocation);
+        }
     }
 
-    public GameObject followingPosition;
-
-
-
-
+    [Header("Score System")]
+    public int OverallScore = 0;
+    public float OverallScoreMultiply = 1;
 }
