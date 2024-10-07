@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SpawnerScript : MonoBehaviour
 {
-
     float timecheck1 = 0;
     float timecheck2 = 4;
     public GameObject[] spawningRate1;
@@ -16,7 +15,7 @@ public class SpawnerScript : MonoBehaviour
         if (GameStates.instance.CurrentGameStates == "PLAYING")
         {
             timecheck1 += Time.deltaTime;
-            if (timecheck1 > timecheck2)
+            if (timecheck1 > timecheck2/ GameStates.instance.everytingmultiply)
             {
                 int RandomA = Random.Range(0, 10);
                 if (RandomA < 6)

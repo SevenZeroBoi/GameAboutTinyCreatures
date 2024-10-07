@@ -132,8 +132,9 @@ public class GameStates : MonoBehaviour
 
     float timecount = 0;
 
-    
 
+    float gametime = 0;
+    public float everytingmultiply = 1;
     void ScoreByTime()
     {
         if (OverallScore < 0)
@@ -159,6 +160,13 @@ public class GameStates : MonoBehaviour
         if (CurrentGameStates == "PLAYING")
         {
             ScoreByTime();
+            gametime += Time.deltaTime;
+            if (gametime > 60)
+            {
+                everytingmultiply += 0.2f;
+                gametime = 0;
+                normalSpeed += 0.1f;
+            }
         }
         
     }

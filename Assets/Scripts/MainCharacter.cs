@@ -62,7 +62,7 @@ public class MainCharacter : MonoBehaviour
                 CreateRotationPos(rotationPos);
             }
         }
-
+        /*
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             GameStates.instance.movementSpeed *= 1.5f;
@@ -70,7 +70,7 @@ public class MainCharacter : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             GameStates.instance.movementSpeed = GameStates.instance.normalSpeed;
-        }
+        }*/
     }
 
     public GameObject emptyPos;
@@ -97,5 +97,18 @@ public class MainCharacter : MonoBehaviour
             }
             GameStates.instance.AddEveryFollowerTarget(newemptyPos);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "CREATURES")
+        {
+            GameLose();
+        }
+    }
+
+    void GameLose()
+    {
+
     }
 }

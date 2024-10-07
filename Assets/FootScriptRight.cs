@@ -18,7 +18,7 @@ public class FootScriptRight : MonoBehaviour
         {
             if (status == "PUNCHING")
             {
-
+                gameObject.GetComponent<Animator>().applyRootMotion = false;
             }
             else
             {
