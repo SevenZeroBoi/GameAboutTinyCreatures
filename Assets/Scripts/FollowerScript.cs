@@ -28,11 +28,11 @@ public class FollowerScript : MonoBehaviour
         if (canwalk)
         {
             InlineMovement();
-        }
+        }/*
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("DeathEnd"))
         {
-            gameObject.SetActive(false);
-        }
+            PoolingManager.instance.ReturnToPool(gameObject.name, gameObject);
+        }*/
     }
     Vector3 vectorcheck = Vector3.down;
     void InlineMovement() //movement when hit the target followeing
@@ -75,8 +75,8 @@ public class FollowerScript : MonoBehaviour
             GameStates.instance.allFollowersStorage.Add(gameObject);
             mainTarget = collision.gameObject;
             collision.gameObject.GetComponent<CircleCollider2D>().enabled = false;
-            objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
-            GameStates.instance.allFollowingDetection.Add(objectFollower);
+            collision.gameObject.GetComponent<Animator>().enabled = true;
+            GameObject objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab, transform.position, Quaternion.identity);
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
             vectorcheck = MainCharacter.instance.rotationPos;
 

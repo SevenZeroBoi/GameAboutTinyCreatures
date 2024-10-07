@@ -67,13 +67,14 @@ public class GameStates : MonoBehaviour
 
             for (int i = allFollowingDetection.Count - 1; i > startIndex; i--)
             {
-                Destroy(allFollowingDetection[i]);
+                PoolingManager.instance.ReturnToPool(allFollowingDetection[i].name, allFollowingDetection[i]);
                 allFollowingDetection.RemoveAt(i);
             }
 
             if (startIndex < allFollowingDetection.Count)
             {
                 allFollowingDetection[startIndex].GetComponent<CircleCollider2D>().enabled = true;
+                allFollowingDetection[startIndex].GetComponent<Animator>().enabled = true;
             }
         }
     }

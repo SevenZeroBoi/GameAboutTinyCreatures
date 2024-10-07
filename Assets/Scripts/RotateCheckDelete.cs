@@ -15,7 +15,7 @@ public class RotateCheckDelete : MonoBehaviour
     {
         if (checkingcount == 0)
         {
-            gameObject.SetActive(false);
+            PoolingManager.instance.ReturnToPool(gameObject.name, gameObject);
         }
     }
 }
