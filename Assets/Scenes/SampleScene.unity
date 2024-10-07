@@ -1499,9 +1499,13 @@ MonoBehaviour:
   textscore1: {fileID: 120255296}
   textscore2: {fileID: 867045133}
   presstoStart: {fileID: 227464169}
+  tmtext1: {fileID: 120255294}
+  tmtext2: {fileID: 867045131}
+  tmtext3: {fileID: 339508105}
   fireobj: {fileID: 313230241}
   loseStage: {fileID: 2032324926}
   scorefinal: {fileID: 1082231668}
+  song: {fileID: 1854827956}
 --- !u!4 &1038498443
 Transform:
   m_ObjectHideFlags: 0

@@ -141,10 +141,10 @@ public class GameStates : MonoBehaviour
             OverallScore = 0;
         }
         timecount += Time.deltaTime;
-        if (timecount > 2)
+        if (timecount > 1)
         {
             OverallScore += Mathf.RoundToInt(((normalCount * 200) + (nerdCount * 400) + (heartCount * 700) + (1100 * flowerCount)
-                - (bugCount * 200) - (cloudCount * 300) /*- (fireCount *700))*/ * OverallScoreMultiply));
+                - (bugCount * 300) - (cloudCount * 600) /*- (fireCount *700))*/ * OverallScoreMultiply));
 
             timecount = 0;
         }
@@ -172,6 +172,7 @@ public class GameStates : MonoBehaviour
             }
             if (fireCount > 0)
             {
+                song.pitch = 1.6f;
                 firecounttimecheck += Time.deltaTime;
                 if (firecounttimecheck > 10)
                 {
@@ -183,6 +184,7 @@ public class GameStates : MonoBehaviour
             }
             else
             {
+                song.pitch = 1;
                 firecounttimecheck = 0;
                 fireobj.SetActive(false);
             }
@@ -191,8 +193,9 @@ public class GameStates : MonoBehaviour
         {
             scorefinal.text = "SCORE: " + OverallScore.ToString();
             loseStage.SetActive(true);
-            textscore2.color = new Color(0, 0, 0, 0);
-            textscore2.color = new Color(0, 0, 0, 0);
+            tmtext1.SetActive(false);
+            tmtext2.SetActive(false);
+            tmtext3.SetActive(false);
         }
 
 
@@ -201,8 +204,12 @@ public class GameStates : MonoBehaviour
         
     }
     float firecounttimecheck = 0;
-
+    public GameObject tmtext1;
+    public GameObject tmtext2; 
+    public GameObject tmtext3;
     public GameObject fireobj;
     public GameObject loseStage;
     public TMP_Text scorefinal;
+
+    public AudioSource song;
 }

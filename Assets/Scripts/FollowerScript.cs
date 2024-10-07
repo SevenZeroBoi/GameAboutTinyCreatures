@@ -102,10 +102,10 @@ public class FollowerScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "CANFOLLOW" && stage != "LINE")
         {
-            GameStates.instance.allFollowersStorage.Add(gameObject);
-            mainTarget = collision.gameObject;
             collision.gameObject.GetComponent<CircleCollider2D>().enabled = false;
             collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            GameStates.instance.allFollowersStorage.Add(gameObject);
+            mainTarget = collision.gameObject;
             objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
             GameStates.instance.allFollowingDetection.Add(objectFollower);
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
