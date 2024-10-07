@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.Rendering.DebugUI;
@@ -20,13 +21,31 @@ public class FollowerScript : MonoBehaviour
     public Animator anim;
     private void Start()
     {
+        anim = GetComponent<Animator>();
+        anim.applyRootMotion = false;
     }
-    private bool canwalk = false;
+    public string stage = "WALKING";
+    int rotation = -1;
+    public float startingspeed;
     private void Update()
     {
-        if (canwalk)
+        animtimecheck+=Time.deltaTime;
+        if (animtimecheck > 2)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 20*rotation);
+            rotation*=-1;
+            animtimecheck = 0;
+        }
+        if (stage == "LINE")
         {
             InlineMovement();
+        }
+        else if (stage == "WALKING")
+        {
+            transform.position += Time.deltaTime * startingspeed * Vector3.up;
+        }
+        else if (stage == "DEATH"){
+            OnDeath();
         }/*
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("DeathEnd"))
         {
@@ -35,6 +54,17 @@ public class FollowerScript : MonoBehaviour
         */
     }
     Vector3 vectorcheck = Vector3.down;
+
+    float animtimecheck = 0;
+    void OnDeath()
+    {
+        
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameStates.instance.deathLocation.transform.position, Time.deltaTime * 17);
+        if (transform.position == GameStates.instance.deathLocation.transform.position)
+        {
+            Destroy(gameObject);
+        }
+    }
     void InlineMovement() //movement when hit the target followeing
     {
         objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
@@ -70,11 +100,12 @@ public class FollowerScript : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "CANFOLLOW" && !canwalk)
+        if (collision.gameObject.tag == "CANFOLLOW" && stage != "LINE")
         {
             GameStates.instance.allFollowersStorage.Add(gameObject);
             mainTarget = collision.gameObject;
             collision.gameObject.GetComponent<CircleCollider2D>().enabled = false;
+            collision.gameObject.GetComponent<SpriteRenderer>().enabled = false;
             objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
             GameStates.instance.allFollowingDetection.Add(objectFollower);
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
@@ -126,7 +157,7 @@ public class FollowerScript : MonoBehaviour
             }
 
 
-            canwalk = true;
+            stage = "LINE";
         }
 
         if (collision.gameObject.tag == "ATTACK")

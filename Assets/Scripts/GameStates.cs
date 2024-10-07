@@ -8,6 +8,14 @@ public class GameStates : MonoBehaviour
 {
 
     public static GameStates instance;
+
+
+    public string CurrentGameStates = "MENU";
+
+
+
+
+
     private void Awake()
     {
         instance = this;
@@ -36,7 +44,7 @@ public class GameStates : MonoBehaviour
         }
     }
 
-
+    public GameObject deathLocation;
     public void CreaturesDeath(GameObject start)
     {
         int startIndex = allFollowersStorage.IndexOf(start);
@@ -45,21 +53,23 @@ public class GameStates : MonoBehaviour
         {
             for (int i = allFollowersStorage.Count - 1; i >= startIndex; i--)
             {
+                allFollowersStorage[i].GetComponent<CircleCollider2D>().enabled = false;
+                allFollowersStorage[i].GetComponent<FollowerScript>().stage = "DEATH";
                 if (allFollowersStorage[i].name == "RUNNER")
-                {
-                    GameStates.instance.normalSpeed *= 0.2f;
-                }
-                else if (allFollowersStorage[i].name == "ROCK")
                 {
                     GameStates.instance.normalSpeed /= 0.2f;
                 }
+                else if (allFollowersStorage[i].name == "ROCK")
+                {
+                    GameStates.instance.normalSpeed *= 0.2f;
+                }
                 else if (allFollowersStorage[i].name == "ROCKET")
                 {
-                    GameStates.instance.OverallScoreMultiply += 0.2f;
+                    GameStates.instance.OverallScoreMultiply -= 0.2f;
                 }
                 else if (allFollowersStorage[i].name == "STAR")
                 {
-                    GameStates.instance.OverallScoreMultiply += 1;
+                    GameStates.instance.OverallScoreMultiply -= 1;
                 }
                 else if (allFollowersStorage[i].name == "NORMAL")
                 {
@@ -89,8 +99,8 @@ public class GameStates : MonoBehaviour
                 {
                     GameStates.instance.fireCount--;
                 }
-                Animator anim = allFollowersStorage[i].GetComponent<Animator>();
-                anim.SetTrigger("Death");
+                allFollowersStorage.RemoveAt(i);
+
             }
 
             for (int i = allFollowingDetection.Count - 1; i > startIndex; i--)
@@ -102,6 +112,8 @@ public class GameStates : MonoBehaviour
             if (startIndex < allFollowingDetection.Count)
             {
                 allFollowingDetection[startIndex].GetComponent<CircleCollider2D>().enabled = true;
+                allFollowingDetection[startIndex].GetComponent<SpriteRenderer>().enabled = true;
+
             }
         }
     }
@@ -124,11 +136,15 @@ public class GameStates : MonoBehaviour
 
     void ScoreByTime()
     {
+        if (OverallScore < 0)
+        {
+            OverallScore = 0;
+        }
         timecount += Time.deltaTime;
         if (timecount > 2)
         {
             OverallScore += Mathf.RoundToInt(((normalCount * 50) + (nerdCount * 100) + (heartCount * 300) + (800 * flowerCount)
-                - (bugCount * 200) - (cloudCount * 500)) * OverallScoreMultiply);
+                - (bugCount * 200) - (cloudCount * 500) - (fireCount *1000)) * OverallScoreMultiply);
 
             timecount = 0;
         }
@@ -136,7 +152,15 @@ public class GameStates : MonoBehaviour
 
     private void Update()
     {
-        ScoreByTime();
+        if (CurrentGameStates == "MENU")
+        {
+
+        }
+        if (CurrentGameStates == "PLAYING")
+        {
+            ScoreByTime();
+        }
+        
     }
 
 

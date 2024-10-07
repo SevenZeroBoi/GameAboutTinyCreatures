@@ -24,11 +24,14 @@ public class MainCharacter : MonoBehaviour
 
     private void Update()
     {
-        Movement();
+        if (GameStates.instance.CurrentGameStates == "PLAYING")
+        {
+            Movement();
+        }
     }
 
 
-    public Vector3 rotationPos = Vector3.down;
+    public Vector3 rotationPos = Vector3.zero;
     void Movement() //main movement
     {
         transform.position += rotationPos * GameStates.instance.movementSpeed * Time.deltaTime;
