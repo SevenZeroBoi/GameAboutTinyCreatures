@@ -111,6 +111,7 @@ public class FollowerScript : MonoBehaviour
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
             vectorcheck = MainCharacter.instance.rotationPos;
             gameObject.tag = "SETNEWONE";
+            MainCharacter.instance.GetComponent<AudioSource>().PlayOneShot(getSound);
 
             if (gameObject.name == "RUNNER")
             {
@@ -161,9 +162,13 @@ public class FollowerScript : MonoBehaviour
             stage = "LINE";
         }
 
-        if (collision.gameObject.tag == "CREATURES")
+        if (collision.gameObject.tag == "CREATURES" && stage == "LINE")
         {
+            MainCharacter.instance.GetComponent<AudioSource>().PlayOneShot(deathSound);
             GameStates.instance.CreaturesDeath(gameObject);
         }
     }
+    public AudioSource audioS;
+    public AudioClip deathSound;
+    public AudioClip getSound;
 }

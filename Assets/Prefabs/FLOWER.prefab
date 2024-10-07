@@ -168,6 +168,9 @@ MonoBehaviour:
   anim: {fileID: 0}
   stage: WALKING
   startingspeed: 4
+  audioS: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: b14dc7da2c08dcc4499829817a123d6a, type: 3}
+  getSound: {fileID: 8300000, guid: 17be160100b93e44aabf547701945250, type: 3}
 --- !u!95 &467204720382403906
 Animator:
   serializedVersion: 5

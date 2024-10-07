@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using static UnityEditor.PlayerSettings;
 
 public class MainCharacter : MonoBehaviour
@@ -26,6 +27,11 @@ public class MainCharacter : MonoBehaviour
     int rotation = -1;
     private void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         if (GameStates.instance.CurrentGameStates != "GAMEOVER")
         {
             Movement();
@@ -124,5 +130,10 @@ public class MainCharacter : MonoBehaviour
     {
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameStates.instance.deathLocation.transform.position, Time.deltaTime * 17);
         GameStates.instance.CurrentGameStates = "GAMEOVER";
+        GetComponent<AudioSource>().PlayOneShot(lose);
+        song.SetActive(false);
     }
+    
+    public AudioClip lose;
+    public GameObject song;
 }

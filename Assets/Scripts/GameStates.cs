@@ -143,7 +143,7 @@ public class GameStates : MonoBehaviour
         timecount += Time.deltaTime;
         if (timecount > 2)
         {
-            OverallScore += Mathf.RoundToInt(((normalCount * 50) + (nerdCount * 100) + (heartCount * 300) + (800 * flowerCount)
+            OverallScore += Mathf.RoundToInt(((normalCount * 200) + (nerdCount * 400) + (heartCount * 700) + (1100 * flowerCount)
                 - (bugCount * 200) - (cloudCount * 300) /*- (fireCount *700))*/ * OverallScoreMultiply));
 
             timecount = 0;
@@ -187,6 +187,13 @@ public class GameStates : MonoBehaviour
                 fireobj.SetActive(false);
             }
         }
+        if (CurrentGameStates == "GAMEOVER")
+        {
+            scorefinal.text = "SCORE: " + OverallScore.ToString();
+            loseStage.SetActive(true);
+            textscore2.color = new Color(0, 0, 0, 0);
+            textscore2.color = new Color(0, 0, 0, 0);
+        }
 
 
         
@@ -196,4 +203,6 @@ public class GameStates : MonoBehaviour
     float firecounttimecheck = 0;
 
     public GameObject fireobj;
+    public GameObject loseStage;
+    public TMP_Text scorefinal;
 }
