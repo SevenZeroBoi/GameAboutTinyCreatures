@@ -45,11 +45,24 @@ public class GameStates : MonoBehaviour
         {
             for (int i = allFollowersStorage.Count - 1; i >= startIndex; i--)
             {
+                if (allFollowersStorage[i].name == "RUNNER")
+                {
+                    GameStates.instance.normalSpeed *= 0.2f;
+                }
+                else if (allFollowersStorage[i].name == "ROCK")
+                {
+                    GameStates.instance.normalSpeed /= 0.2f;
+                }
+                else if (allFollowersStorage[i].name == "ROCKET")
+                {
+                    GameStates.instance.OverallScoreMultiply += 0.2f;
+                }
+                else if (allFollowersStorage[i].name == "STAR")
+                {
+                    GameStates.instance.OverallScoreMultiply += 1;
+                }
                 Animator anim = allFollowersStorage[i].GetComponent<Animator>();
                 anim.SetTrigger("Death");
-
-                Destroy(allFollowersStorage[i]);
-                allFollowersStorage.RemoveAt(i);
             }
 
             for (int i = allFollowingDetection.Count - 1; i > startIndex; i--)
@@ -68,10 +81,13 @@ public class GameStates : MonoBehaviour
     [Header("Score System")]
     public int OverallScore = 0;
     public float OverallScoreMultiply = 1;
-    public int CreaturesScoreMultiply = 1;
-    public int CreaturesSpeedBoost = 1;
-    public int CreaturesDividingScore = 0;
-    public int CreaturesSpeedSlowing = 0;
+
+    public int normalCount = 0;
+    public int nerdCount = 0;
+    public int heartCount = 0;
+    public int flowerCount = 0;
+    public int bugCount = 0;
+    public int cloudCount = 0;
 
     public int CreaturesInHouseCount = 0;
     float timecount = 0;
@@ -81,16 +97,11 @@ public class GameStates : MonoBehaviour
         timecount += Time.deltaTime;
         if (timecount > 2)
         {
-            OverallScore += (int)Mathf.Round(CreaturesInHouseCount * 500 * OverallScoreMultiply);
-            OverallScore += (int)Mathf.Round(200 * OverallScoreMultiply);
-            timecount = 0;
+            OverallScore += Mathf.RoundToInt(((normalCount * 50) + (nerdCount * 100) + (heartCount * 300) + (800 * flowerCount)
+                - (bugCount * 200) - (cloudCount * 500))*OverallScoreMultiply);
         }
     }
-    void PickUpCreatures()
-    {
-        OverallScore += 500;
-    }
-
+    
 
 
 }

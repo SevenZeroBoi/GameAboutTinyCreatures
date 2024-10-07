@@ -17,8 +17,10 @@ public class FollowerScript : MonoBehaviour
 
     [HideInInspector] public List<GameObject> subTargetList;
     [HideInInspector] public GameObject mainTarget;
+    public Animator anim;
     private void Start()
     {
+        anim = GetComponent<Animator>();
     }
     private bool canwalk = false;
     private void Update()
@@ -26,6 +28,10 @@ public class FollowerScript : MonoBehaviour
         if (canwalk)
         {
             InlineMovement();
+        }
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("DeathEnd"))
+        {
+            gameObject.SetActive(false);
         }
     }
     Vector3 vectorcheck = Vector3.down;
@@ -73,6 +79,26 @@ public class FollowerScript : MonoBehaviour
             GameStates.instance.allFollowingDetection.Add(objectFollower);
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
             vectorcheck = MainCharacter.instance.rotationPos;
+
+            if (gameObject.name == "RUNNER")
+            {
+                GameStates.instance.normalSpeed *= 0.2f;
+            }
+            else if (gameObject.name == "ROCK")
+            {
+                GameStates.instance.normalSpeed /= 0.2f;
+            }
+            else if (gameObject.name == "ROCKET")
+            {
+                GameStates.instance.OverallScoreMultiply += 0.2f;
+            }
+            else if (gameObject.name == "STAR")
+            {
+                GameStates.instance.OverallScoreMultiply += 1;
+            }
+
+
+
             canwalk = true;
         }
 
