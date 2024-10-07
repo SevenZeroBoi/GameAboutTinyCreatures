@@ -61,6 +61,34 @@ public class GameStates : MonoBehaviour
                 {
                     GameStates.instance.OverallScoreMultiply += 1;
                 }
+                else if (allFollowersStorage[i].name == "NORMAL")
+                {
+                    GameStates.instance.normalCount--;
+                }
+                else if (allFollowersStorage[i].name == "NERD")
+                {
+                    GameStates.instance.nerdCount--;
+                }
+                else if (allFollowersStorage[i].name == "HEART")
+                {
+                    GameStates.instance.heartCount--;
+                }
+                else if (allFollowersStorage[i].name == "FLOWER")
+                {
+                    GameStates.instance.flowerCount--;
+                }
+                else if (allFollowersStorage[i].name == "BUG")
+                {
+                    GameStates.instance.bugCount--;
+                }
+                else if (allFollowersStorage[i].name == "CLOUD")
+                {
+                    GameStates.instance.cloudCount--;
+                }
+                else if (allFollowersStorage[i].name == "FIRE")
+                {
+                    GameStates.instance.fireCount--;
+                }
                 Animator anim = allFollowersStorage[i].GetComponent<Animator>();
                 anim.SetTrigger("Death");
             }
@@ -88,9 +116,11 @@ public class GameStates : MonoBehaviour
     public int flowerCount = 0;
     public int bugCount = 0;
     public int cloudCount = 0;
+    public int fireCount = 0;
 
-    public int CreaturesInHouseCount = 0;
     float timecount = 0;
+
+    
 
     void ScoreByTime()
     {
@@ -99,7 +129,14 @@ public class GameStates : MonoBehaviour
         {
             OverallScore += Mathf.RoundToInt(((normalCount * 50) + (nerdCount * 100) + (heartCount * 300) + (800 * flowerCount)
                 - (bugCount * 200) - (cloudCount * 500)) * OverallScoreMultiply);
+
+            timecount = 0;
         }
+    }
+
+    private void Update()
+    {
+        ScoreByTime();
     }
 
 

@@ -15,12 +15,11 @@ public class FollowerScript : MonoBehaviour
 
     [HideInInspector] public GameObject objectFollower;
 
-    [HideInInspector] public List<GameObject> subTargetList;
-    [HideInInspector] public GameObject mainTarget;
+    public List<GameObject> subTargetList;
+    public GameObject mainTarget;
     public Animator anim;
     private void Start()
     {
-        anim = GetComponent<Animator>();
     }
     private bool canwalk = false;
     private void Update()
@@ -28,11 +27,12 @@ public class FollowerScript : MonoBehaviour
         if (canwalk)
         {
             InlineMovement();
-        }
+        }/*
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("DeathEnd"))
         {
             gameObject.SetActive(false);
         }
+        */
     }
     Vector3 vectorcheck = Vector3.down;
     void InlineMovement() //movement when hit the target followeing
@@ -96,7 +96,34 @@ public class FollowerScript : MonoBehaviour
             {
                 GameStates.instance.OverallScoreMultiply += 1;
             }
-
+            else if (gameObject.name == "NORMAL")
+            {
+                GameStates.instance.normalCount++;
+            }
+            else if (gameObject.name == "NERD")
+            {
+                GameStates.instance.nerdCount++;
+            }
+            else if (gameObject.name == "HEART")
+            {
+                GameStates.instance.heartCount++;
+            }
+            else if (gameObject.name == "FLOWER")
+            {
+                GameStates.instance.flowerCount++;
+            }
+            else if (gameObject.name == "BUG")
+            {
+                GameStates.instance.bugCount++;
+            }
+            else if (gameObject.name == "CLOUD")
+            {
+                GameStates.instance.cloudCount++;
+            }
+            else if (gameObject.name == "FIRE")
+            {
+                GameStates.instance.fireCount++;
+            }
 
 
             canwalk = true;
