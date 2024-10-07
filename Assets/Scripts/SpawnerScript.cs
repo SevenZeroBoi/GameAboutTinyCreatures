@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+
 using UnityEngine;
 
 public class SpawnerScript : MonoBehaviour
@@ -12,7 +10,7 @@ public class SpawnerScript : MonoBehaviour
     public GameObject[] spawningRate3;
     public void Update()
     {
-        if (GameStates.instance.CurrentGameStates == "PLAYING")
+        if (GameStates.instance.CurrentGameStates == "PLAYING") 
         {
             timecheck1 += Time.deltaTime;
             if (timecheck1 > timecheck2/ GameStates.instance.everytingmultiply)

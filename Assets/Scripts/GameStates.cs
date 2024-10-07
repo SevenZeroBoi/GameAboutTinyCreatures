@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Build;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class GameStates : MonoBehaviour
@@ -17,6 +13,7 @@ public class GameStates : MonoBehaviour
 
     private void Awake()
     {
+        Screen.SetResolution(1400, 1400, true);
         instance = this;
     }
     private void Start()

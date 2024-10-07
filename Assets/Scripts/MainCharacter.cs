@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
 
 public class MainCharacter : MonoBehaviour
 {
@@ -120,7 +116,7 @@ public class MainCharacter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "CREATURES" || other.gameObject.tag=="SETNEWONE")
+        if (other.gameObject.tag == "CREATURES" || other.gameObject.tag=="SETNEWONE" || other.gameObject.tag == "ATTACK")
         {
             GameLose();
         }

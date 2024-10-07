@@ -1,11 +1,8 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
+
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.Rendering.DebugUI;
+
 
 public class FollowerScript : MonoBehaviour
 {
@@ -70,11 +67,11 @@ public class FollowerScript : MonoBehaviour
         objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
         if (subTargetList.Count == 0)
         {
-            transform.position = Vector3.MoveTowards(transform.position, mainTarget.transform.position, (GameStates.instance.movementSpeed + 0.1f) * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, mainTarget.transform.position, (GameStates.instance.movementSpeed + 0.7f) * Time.deltaTime);
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, subTargetList[0].transform.position, (GameStates.instance.movementSpeed + 0.1f) * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, subTargetList[0].transform.position, (GameStates.instance.movementSpeed -0.1f) * Time.deltaTime);
             if (transform.position == subTargetList[0].transform.position)
             {
                 if (subTargetList[0].tag == "RIGHT")
