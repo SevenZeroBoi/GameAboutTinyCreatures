@@ -67,14 +67,13 @@ public class GameStates : MonoBehaviour
 
             for (int i = allFollowingDetection.Count - 1; i > startIndex; i--)
             {
-                PoolingManager.instance.ReturnToPool(allFollowingDetection[i].name, allFollowingDetection[i]);
+                Destroy(allFollowingDetection[i]);
                 allFollowingDetection.RemoveAt(i);
             }
 
             if (startIndex < allFollowingDetection.Count)
             {
                 allFollowingDetection[startIndex].GetComponent<CircleCollider2D>().enabled = true;
-                allFollowingDetection[startIndex].GetComponent<Animator>().enabled = true;
             }
         }
     }
@@ -99,10 +98,10 @@ public class GameStates : MonoBehaviour
         if (timecount > 2)
         {
             OverallScore += Mathf.RoundToInt(((normalCount * 50) + (nerdCount * 100) + (heartCount * 300) + (800 * flowerCount)
-                - (bugCount * 200) - (cloudCount * 500))*OverallScoreMultiply);
+                - (bugCount * 200) - (cloudCount * 500)) * OverallScoreMultiply);
         }
     }
-    
+
 
 
 }

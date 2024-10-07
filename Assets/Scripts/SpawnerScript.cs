@@ -19,18 +19,18 @@ public class SpawnerScript : MonoBehaviour
             int RandomA = Random.Range(0, 10);
             if (RandomA < 6)
             {
-                GameObject newemptyPos = PoolingManager.instance.GetFromPool(spawningRate1[Random.Range(0, spawningRate1.Length)].name, spawningRate1[Random.Range(0, spawningRate1.Length)], transform.position, Quaternion.identity);
+                Instantiate(spawningRate1[Random.Range(0, spawningRate1.Length)], transform.position, Quaternion.identity);
             }
             else if (RandomA < 9)
             {
-                GameObject newemptyPos = PoolingManager.instance.GetFromPool(spawningRate2[Random.Range(0, spawningRate1.Length)].name, spawningRate1[Random.Range(0, spawningRate1.Length)], transform.position, Quaternion.identity);
+                Instantiate(spawningRate2[Random.Range(0, spawningRate2.Length)], transform.position, Quaternion.identity);
             }
-            else 
+            else
             {
-                GameObject newemptyPos = PoolingManager.instance.GetFromPool(spawningRate3[Random.Range(0, spawningRate1.Length)].name, spawningRate1[Random.Range(0, spawningRate1.Length)], transform.position, Quaternion.identity);
+                Instantiate(spawningRate3[Random.Range(0, spawningRate3.Length)], transform.position, Quaternion.identity);
             }
             timecheck1 = 0;
         }
-        
+
     }
 }

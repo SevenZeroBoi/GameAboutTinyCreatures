@@ -13,7 +13,7 @@ public class FollowerScript : MonoBehaviour
 
     }
 
-    [HideInInspector]  public GameObject objectFollower;
+    [HideInInspector] public GameObject objectFollower;
 
     [HideInInspector] public List<GameObject> subTargetList;
     [HideInInspector] public GameObject mainTarget;
@@ -28,11 +28,11 @@ public class FollowerScript : MonoBehaviour
         if (canwalk)
         {
             InlineMovement();
-        }/*
+        }
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("DeathEnd"))
         {
-            PoolingManager.instance.ReturnToPool(gameObject.name, gameObject);
-        }*/
+            gameObject.SetActive(false);
+        }
     }
     Vector3 vectorcheck = Vector3.down;
     void InlineMovement() //movement when hit the target followeing
@@ -40,11 +40,11 @@ public class FollowerScript : MonoBehaviour
         objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
         if (subTargetList.Count == 0)
         {
-            transform.position = Vector3.MoveTowards(transform.position, mainTarget.transform.position, (GameStates.instance.movementSpeed+ 0.1f) * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, mainTarget.transform.position, (GameStates.instance.movementSpeed + 0.1f) * Time.deltaTime);
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, subTargetList[0].transform.position, (GameStates.instance.movementSpeed+ 0.1f) * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, subTargetList[0].transform.position, (GameStates.instance.movementSpeed + 0.1f) * Time.deltaTime);
             if (transform.position == subTargetList[0].transform.position)
             {
                 if (subTargetList[0].tag == "RIGHT")
@@ -75,8 +75,8 @@ public class FollowerScript : MonoBehaviour
             GameStates.instance.allFollowersStorage.Add(gameObject);
             mainTarget = collision.gameObject;
             collision.gameObject.GetComponent<CircleCollider2D>().enabled = false;
-            collision.gameObject.GetComponent<Animator>().enabled = true;
-            GameObject objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab, transform.position, Quaternion.identity);
+            objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
+            GameStates.instance.allFollowingDetection.Add(objectFollower);
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
             vectorcheck = MainCharacter.instance.rotationPos;
 
