@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Build;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class GameStates : MonoBehaviour
@@ -11,9 +13,6 @@ public class GameStates : MonoBehaviour
 
 
     public string CurrentGameStates = "MENU";
-
-
-
 
 
     private void Awake()
@@ -145,17 +144,21 @@ public class GameStates : MonoBehaviour
         if (timecount > 2)
         {
             OverallScore += Mathf.RoundToInt(((normalCount * 50) + (nerdCount * 100) + (heartCount * 300) + (800 * flowerCount)
-                - (bugCount * 200) - (cloudCount * 500) - (fireCount *1000)) * OverallScoreMultiply);
+                - (bugCount * 200) - (cloudCount * 300) /*- (fireCount *700))*/ * OverallScoreMultiply));
 
             timecount = 0;
         }
     }
-
+    public TMP_Text textscore1;
+    public TMP_Text textscore2;
+    public GameObject presstoStart;
     private void Update()
     {
-        if (CurrentGameStates == "MENU")
+        textscore1.text = OverallScore.ToString("D8");
+        textscore2.text = OverallScore.ToString("D8");
+        if (CurrentGameStates != "MENU")
         {
-
+            presstoStart.SetActive(false);
         }
         if (CurrentGameStates == "PLAYING")
         {
@@ -167,10 +170,30 @@ public class GameStates : MonoBehaviour
                 gametime = 0;
                 normalSpeed += 0.1f;
             }
+            if (fireCount > 0)
+            {
+                firecounttimecheck += Time.deltaTime;
+                if (firecounttimecheck > 10)
+                {
+                    MainCharacter.instance.GameLose();
+
+                    CreaturesDeath(allFollowersStorage[0]);
+                }
+                fireobj.SetActive(true);
+            }
+            else
+            {
+                firecounttimecheck = 0;
+                fireobj.SetActive(false);
+            }
         }
+
+
+        
+        
         
     }
+    float firecounttimecheck = 0;
 
-
-
+    public GameObject fireobj;
 }

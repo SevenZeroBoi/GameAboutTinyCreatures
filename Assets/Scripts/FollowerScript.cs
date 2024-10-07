@@ -110,6 +110,7 @@ public class FollowerScript : MonoBehaviour
             GameStates.instance.allFollowingDetection.Add(objectFollower);
             objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * vectorcheck);
             vectorcheck = MainCharacter.instance.rotationPos;
+            gameObject.tag = "SETNEWONE";
 
             if (gameObject.name == "RUNNER")
             {
@@ -160,7 +161,7 @@ public class FollowerScript : MonoBehaviour
             stage = "LINE";
         }
 
-        if (collision.gameObject.tag == "ATTACK")
+        if (collision.gameObject.tag == "CREATURES")
         {
             GameStates.instance.CreaturesDeath(gameObject);
         }

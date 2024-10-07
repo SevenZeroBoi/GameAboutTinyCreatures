@@ -33,7 +33,9 @@ public class SpawnerScript : MonoBehaviour
                     int RandomB = Random.Range(0, spawningRate3.Length);
                     Instantiate(spawningRate3[RandomB], transform.position, Quaternion.identity).name = spawningRate3[RandomB].name;
                 }
+                timecheck2 = Random.Range(2, 5);
                 timecheck1 = 0;
+                
             }
         }
 

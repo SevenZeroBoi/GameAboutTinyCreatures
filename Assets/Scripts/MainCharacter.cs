@@ -17,16 +17,27 @@ public class MainCharacter : MonoBehaviour
 
     private void Start()
     {
+        rotationPos = Vector3.zero;
         objectFollower = Instantiate(GameStates.instance.objectFollowerPrefab);
         GameStates.instance.allFollowingDetection.Add(objectFollower);
         objectFollower.transform.position = transform.position + (-1 * GameStates.instance.rangeBetweenFollowers * rotationPos);
     }
-
+    float animtimecheck = 0;
+    int rotation = -1;
     private void Update()
     {
-        if (GameStates.instance.CurrentGameStates == "PLAYING")
+        if (GameStates.instance.CurrentGameStates != "GAMEOVER")
         {
             Movement();
+        }
+        
+
+        animtimecheck += Time.deltaTime;
+        if (animtimecheck > 2)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 20 * rotation);
+            rotation *= -1;
+            animtimecheck = 0;
         }
     }
 
@@ -41,12 +52,14 @@ public class MainCharacter : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
             {
                 rotationPos = Vector3.right;
-                CreateRotationPos(rotationPos);
+                CreateRotationPos(rotationPos); if (GameStates.instance.CurrentGameStates == "MENU") GameStates.instance.CurrentGameStates = "PLAYING";
+
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
                 rotationPos = Vector3.left;
                 CreateRotationPos(rotationPos);
+                if (GameStates.instance.CurrentGameStates == "MENU") GameStates.instance.CurrentGameStates = "PLAYING";
             }
         }
         if (rotationPos != Vector3.up && rotationPos != Vector3.down)
@@ -54,12 +67,12 @@ public class MainCharacter : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W))
             {
                 rotationPos = Vector3.up;
-                CreateRotationPos(rotationPos);
+                CreateRotationPos(rotationPos); if (GameStates.instance.CurrentGameStates == "MENU") GameStates.instance.CurrentGameStates = "PLAYING";
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 rotationPos = Vector3.down;
-                CreateRotationPos(rotationPos);
+                CreateRotationPos(rotationPos); if (GameStates.instance.CurrentGameStates == "MENU") GameStates.instance.CurrentGameStates = "PLAYING";
             }
         }
         /*
@@ -101,14 +114,15 @@ public class MainCharacter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "CREATURES")
+        if (other.gameObject.tag == "CREATURES" || other.gameObject.tag=="SETNEWONE")
         {
             GameLose();
         }
     }
 
-    void GameLose()
+    public void GameLose()
     {
-
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameStates.instance.deathLocation.transform.position, Time.deltaTime * 17);
+        GameStates.instance.CurrentGameStates = "GAMEOVER";
     }
 }
