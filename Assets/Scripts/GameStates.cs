@@ -13,7 +13,6 @@ public class GameStates : MonoBehaviour
 
     private void Awake()
     {
-        Screen.SetResolution(1400, 1400, true);
         instance = this;
     }
     private void Start()
